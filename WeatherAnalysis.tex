@@ -1,0 +1,523 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./WeatherAnalysis_images/} }
+
+\begin{document}
+
+\label{H_9440DCCA}
+\matlabheading{Merge event data with weather data}
+
+\label{H_B3A1B440}
+\begin{par}
+\begin{flushleft}
+Read weather data from MathWorks headquarters in Natick, MA. ThingSpeak channel number 12397.
+\end{flushleft}
+\end{par}
+
+\begin{enumerate}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} Change directory where you saved the challenge folder and select tha date from which you want to analyse the data. \end{flushleft}}
+\end{enumerate}
+
+\begin{par}
+\begin{flushleft}
+\textit{ Suggestion: The data formt is "MMM dd, yyyy"}
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+cd '/MATLAB Drive/MathWorksHackathonChallenge/EASY_AnalyseWeatherData';
+
+From = datetime("JAN 01, 2019");
+To = datetime("JAN 01, 2020");
+
+chID = 12397
+\end{matlabcode}
+\begin{matlaboutput}
+chID = 12397
+\end{matlaboutput}
+\begin{matlabcode}
+weather = thingSpeakRead(chID,...
+   "DateRange",[From,To],...
+   "OutputFormat", "timetable" ); 
+\end{matlabcode}
+
+
+\vspace{1em}
+\begin{par}
+\begin{flushleft}
+Update the variable names.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+weather.Properties.VariableNames = ["WindDir","WindSpeed",...
+    "Humidity","TempF","Rain","Pressure","Power","Intensity"];
+\end{matlabcode}
+
+
+\label{H_55DB3F52}
+\matlabheading{Visualize the weather data.}
+
+\begin{par}
+\begin{flushleft}
+\textit{    2. You want to visualise the weather data in a stacked plot. Add a title.You can personalise the plot as you like. Check our documentation.}
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+weather
+\end{matlabcode}
+\begin{matlabtableoutput}
+{
+\begin{tabular} {|c|c|c|c|c|c|c|c|c|c|}\hline
+\cellcolor[RGB]{245,245,245}\mlcell{ } & \cellcolor[RGB]{245,245,245}\mlcell{Timestamps} & \cellcolor[RGB]{245,245,245}\mlcell{WindDir} & \cellcolor[RGB]{245,245,245}\mlcell{WindSpeed} & \cellcolor[RGB]{245,245,245}\mlcell{Humidity} & \cellcolor[RGB]{245,245,245}\mlcell{TempF} & \cellcolor[RGB]{245,245,245}\mlcell{Rain} & \cellcolor[RGB]{245,245,245}\mlcell{Pressure} & \cellcolor[RGB]{245,245,245}\mlcell{Power} & \cellcolor[RGB]{245,245,245}\mlcell{Intensity} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{1} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:05:07} & \mlcell{241} & \mlcell{1.0000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0560} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{2} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:06:07} & \mlcell{258} & \mlcell{1.2000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0560} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{3} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:07:07} & \mlcell{240} & \mlcell{0.6000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0640} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{4} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:08:07} & \mlcell{251} & \mlcell{1.2000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0640} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{5} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:09:07} & \mlcell{231} & \mlcell{0.7000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0600} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{6} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:10:07} & \mlcell{273} & \mlcell{0.2000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0590} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{7} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:11:07} & \mlcell{244} & \mlcell{0.1000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0500} & \mlcell{4.0680} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{8} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:12:07} & \mlcell{295} & \mlcell{0.5000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0820} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{9} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:13:07} & \mlcell{287} & \mlcell{0.4000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0770} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{10} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:14:07} & \mlcell{269} & \mlcell{0} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0850} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{11} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:15:07} & \mlcell{239} & \mlcell{1.0000} & \mlcell{86} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0680} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{12} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:16:07} & \mlcell{265} & \mlcell{1.8000} & \mlcell{85} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0530} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{13} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:17:07} & \mlcell{287} & \mlcell{1.3000} & \mlcell{85} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0600} & \mlcell{0} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{14} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:18:07} & \mlcell{274} & \mlcell{1.3000} & \mlcell{85} & \mlcell{29.9000} & \mlcell{0} & \mlcell{30.0400} & \mlcell{4.0640} & \mlcell{0} \\ 
+\hline
+\end{tabular}
+}
+\end{matlabtableoutput}
+\begin{matlabcode}
+stackedplot(weather)
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_0.png}
+\end{center}
+\begin{matlaboutput}
+ans = 
+  StackedLineChart with properties:
+
+         SourceTable: [8000x8 timetable]
+    DisplayVariables: {'WindDir'  'WindSpeed'  'Humidity'  'TempF'  'Rain'  'Pressure'  'Power'  'Intensity'}
+               Color: [0 0.4470 0.7410]
+           LineStyle: '-'
+           LineWidth: 0.5000
+              Marker: 'none'
+          MarkerSize: 6
+
+  Show all properties
+
+\end{matlaboutput}
+
+
+\label{H_DB86E3A4}
+\matlabheading{Resample the data}
+
+\begin{par}
+\begin{flushleft}
+    3. Resample the Humidity and TempF data so the times and data are uniformly spaced on the minute using the linear interpolation. Plot both the humidity and temperature variable on the same plot.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{You could use the }resample \textit{function to resample your data. In this case we suggest you to explore the }retime \textit{function where you can specify the time step for spacing times and the interpolation method. Explore this function changing the spacing time and interpolation method options. }
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{NOTE: You can access the x variable for the plot in wdata.Timestamps.}
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+wdata = retime(weather, 'minutely', 'spline');
+humidity = wdata.Humidity
+\end{matlabcode}
+\begin{matlaboutput}
+humidity = 8096x1    
+   86.0000
+   86.0000
+   86.0000
+   86.0000
+   86.0000
+   85.9999
+   86.0003
+   85.9988
+   86.0044
+   85.9837
+
+\end{matlaboutput}
+\begin{matlabcode}
+temp = wdata.TempF
+\end{matlabcode}
+\begin{matlaboutput}
+temp = 8096x1    
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+   29.9000
+
+\end{matlaboutput}
+\begin{matlabcode}
+% Include plot
+plot(humidity)
+hold on
+plot(temp)
+hold off
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_1.png}
+\end{center}
+
+
+\label{H_2F4AA01A}
+\matlabheading{Smooth noisy data}
+
+\label{H_82669EED}
+\begin{par}
+\begin{flushleft}
+    4. In this section you will learn to smooth your noisy data using the MATLAB function \textit{ smoothdata. } Plot the Temperature raw and smooth data.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+SmoothNoise=true;
+if SmoothNoise
+    smdata = smoothdata(wdata);
+      
+    % Include plot to compare your wdata and the smdata
+    plot(temp)
+    hold on
+    plot(smdata.TempF)
+    hold off
+end
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_2.png}
+\end{center}
+
+\begin{par}
+\begin{flushleft}
+    5. You can use the \textbf{Smooth Data} app available in the Live Editor Task to smooth your data and explore the differnet options, methods and parameters.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{Include the app in your live script to investigate the different smoothing method.}
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{The output variable should be called }smoothedTemp.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+% Smooth input data
+smoothedTemp = smoothdata(smdata.TempF,'movmean','SmoothingFactor',0.25,...
+    'SamplePoints',smdata.Timestamps);
+
+% Visualize results
+clf
+plot(smdata.Timestamps,smdata.TempF,'Color',[109 185 226]/255,...
+    'DisplayName','Input data')
+hold on
+plot(smdata.Timestamps,smoothedTemp,'Color',[0 114 189]/255,'LineWidth',1.5,...
+    'DisplayName','Smoothed data')
+hold off
+legend
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_3.png}
+\end{center}
+
+\label{H_69C9A4E2}
+\matlabheading{Changepoint detection}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} \texttt{islocalmin} \end{flushleft}}
+   \item{\begin{flushleft} \texttt{islocalmax} \end{flushleft}}
+   \item{\begin{flushleft} \texttt{ischange} \end{flushleft}}
+\end{itemize}
+
+\begin{par}
+\begin{flushleft}
+    6. Detect local maxima and minima in the smoothed data to determine drastic temperature changes.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+    locmin = islocalmin(smdata.TempF)
+\end{matlabcode}
+\begin{matlaboutput}
+locmin = 8096x1 logical array    
+   0
+   0
+   0
+   0
+   0
+   0
+   0
+   0
+   0
+   1
+
+\end{matlaboutput}
+\begin{matlabcode}
+    locmax = islocalmax(smdata.TempF)
+\end{matlabcode}
+\begin{matlaboutput}
+locmax = 8096x1 logical array    
+   0
+   0
+   0
+   0
+   0
+   0
+   0
+   1
+   0
+   0
+
+\end{matlaboutput}
+\begin{matlabcode}
+    %findpeaks(smdata.TempF)
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+    7. Visualize the local min and max on the plot of the smoothed data.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+    figure1 = plot(smdata.Timestamps, smdata.TempF, smdata.Timestamps(locmin), smdata.TempF(locmin), "r*")
+\end{matlabcode}
+\begin{matlaboutput}
+figure1 = 
+  2x1 Line array:
+
+  Line
+  Line
+
+\end{matlaboutput}
+\begin{matlabcode}
+    hold on
+    figure2 = plot(smdata.Timestamps, smdata.TempF, smdata.Timestamps(locmax), smdata.TempF(locmax), "bo")
+\end{matlabcode}
+\begin{matlaboutput}
+figure2 = 
+  2x1 Line array:
+
+  Line
+  Line
+
+\end{matlaboutput}
+\begin{matlabcode}
+    hold off
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_4.png}
+\end{center}
+\begin{matlabcode}
+    
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+    8. Now you can find the local minima and maxima in the data using the \textit{\textbf{Find Local Extrema}} Live Editor Task.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+    
+\end{matlabcode}
+
+\begin{matlabcode}
+% Find local maxima and minima
+maxIndices = islocalmax(smdata.TempF,'SamplePoints',smdata.Timestamps);
+minIndices = islocalmin(smdata.TempF,'SamplePoints',smdata.Timestamps);
+
+% Visualize results
+clf
+plot(smdata.Timestamps,smdata.TempF,'Color',[109 185 226]/255,...
+    'DisplayName','Input data')
+hold on
+
+% Plot local maxima
+plot(smdata.Timestamps(maxIndices),smdata.TempF(maxIndices),'^',...
+    'Color',[217 83 25]/255,'MarkerFaceColor',[217 83 25]/255,...
+    'DisplayName','Local maxima')
+
+% Plot local minima
+plot(smdata.Timestamps(minIndices),smdata.TempF(minIndices),'v',...
+    'Color',[237 177 32]/255,'MarkerFaceColor',[237 177 32]/255,...
+    'DisplayName','Local minima')
+title(['Number of extrema: ' num2str(nnz(maxIndices)+nnz(minIndices))])
+hold off
+legend
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_5.png}
+\end{center}
+
+\begin{par}
+\begin{flushleft}
+    9. Note that some are mins and maxes, depending on the window. If you are looking at both local min and max, you can use \texttt{ischange} to capture both.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{Include the change in linear regime with a threshold of 100.}
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+    changes = ischange(wdata.TempF,"linear",...
+        "Threshold",100);
+    figure
+    plot(wdata.Timestamps,wdata.TempF)
+    hold on
+    plot(wdata.Timestamps(changes),wdata.TempF(changes),"r*")
+    hold off
+    legend("Data","Changepoint")
+    title("Change Points")
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_6.png}
+\end{center}
+\begin{matlabcode}
+
+\end{matlabcode}
+
+
+\label{H_114F1F99}
+\matlabheading{Normalize and rescale data}
+
+\label{H_6B9B4833}
+\begin{par}
+\begin{flushleft}
+\textit{    10. Normalise the }\underline{\textit{numeric data}}\textit{ in the weather variable.}
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{    11. Rescale the new weatherNorm variables between 0 and 1.}
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textit{    12. Plot the normalised and rescaled temperature and humidity data.}
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+
+   weatherNorm = normalize(weather)
+\end{matlabcode}
+\begin{matlabtableoutput}
+{
+\begin{tabular} {|c|c|c|c|c|c|c|c|c|c|}\hline
+\cellcolor[RGB]{245,245,245}\mlcell{ } & \cellcolor[RGB]{245,245,245}\mlcell{Timestamps} & \cellcolor[RGB]{245,245,245}\mlcell{WindDir} & \cellcolor[RGB]{245,245,245}\mlcell{WindSpeed} & \cellcolor[RGB]{245,245,245}\mlcell{Humidity} & \cellcolor[RGB]{245,245,245}\mlcell{TempF} & \cellcolor[RGB]{245,245,245}\mlcell{Rain} & \cellcolor[RGB]{245,245,245}\mlcell{Pressure} & \cellcolor[RGB]{245,245,245}\mlcell{Power} & \cellcolor[RGB]{245,245,245}\mlcell{Intensity} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{1} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:05:07} & \mlcell{0.3737} & \mlcell{-0.8821} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.7521} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{2} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:06:07} & \mlcell{0.5736} & \mlcell{-0.8040} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.7521} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{3} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:07:07} & \mlcell{0.3620} & \mlcell{-1.0384} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.2164} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{4} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:08:07} & \mlcell{0.4913} & \mlcell{-0.8040} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.2164} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{5} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:09:07} & \mlcell{0.2562} & \mlcell{-0.9993} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.4843} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{6} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:10:07} & \mlcell{0.7500} & \mlcell{-1.1946} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-1.5512} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{7} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:11:07} & \mlcell{0.4090} & \mlcell{-1.2336} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.8276} & \mlcell{-0.9485} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{8} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:12:07} & \mlcell{1.0086} & \mlcell{-1.0774} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-0.0110} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{9} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:13:07} & \mlcell{0.9146} & \mlcell{-1.1165} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-0.3458} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{10} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:14:07} & \mlcell{0.7029} & \mlcell{-1.2727} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{0.1899} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{11} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:15:07} & \mlcell{0.3502} & \mlcell{-0.8821} & \mlcell{0.2904} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-0.9485} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{12} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:16:07} & \mlcell{0.6559} & \mlcell{-0.5697} & \mlcell{0.2253} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-1.9530} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{13} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:17:07} & \mlcell{0.9146} & \mlcell{-0.7650} & \mlcell{0.2253} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-1.4843} & \mlcell{-0.4556} \\ \hline
+\cellcolor[RGB]{245,245,245}\mlcell{14} & \cellcolor[RGB]{245,245,245}\mlcell{26-Dec-2019 09:18:07} & \mlcell{0.7617} & \mlcell{-0.7650} & \mlcell{0.2253} & \mlcell{-1.4219} & \mlcell{-0.0973} & \mlcell{0.7833} & \mlcell{-1.2164} & \mlcell{-0.4556} \\ 
+\hline
+\end{tabular}
+}
+\end{matlabtableoutput}
+\begin{matlabcode}
+   humidityNorm = rescale(weather.Humidity)
+\end{matlabcode}
+\begin{matlaboutput}
+humidityNorm = 8000x1    
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+    0.8333
+
+\end{matlaboutput}
+\begin{matlabcode}
+   temperatureNorm = rescale(weather.TempF)
+\end{matlabcode}
+\begin{matlaboutput}
+temperatureNorm = 8000x1    
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+    0.0048
+
+\end{matlaboutput}
+\begin{matlabcode}
+   figure
+   plot(humidityNorm)
+   hold On
+   plot(temperatureNorm)
+   hold Off
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{58.50476668339187em}]{figure_7.png}
+\end{center}
+\begin{matlabcode}
+    
+\end{matlabcode}
+
+\end{document}
